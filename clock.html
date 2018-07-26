@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Clock With Require</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.5/require.min.js"></script>
+</head>
+<body>
+<script>
+    require.config({
+        baseUrl: './'
+    });
+
+    require(['tclock.js', 'tClockControllerButtons.js', 'tClockViewDom.js'], function(TClock, TClockControllerButtons, TClockViewDOM) {
+
+        const timeZones = [-4, 1, 2, 3, 9, 10];
+        const sities = ['Нью-Йорк (GMT-4)', 'Лондон (GMT+1)', 'Берлин (GMT+2)', 'Минск (GMT+3)', 'Токио (GMT+9)', 'Владивосток (GMT+10)'];
+
+        function createClock(timeZonesArray, sitiesArray, host) {
+            for (let i = 0; i < timeZonesArray.length; i++) {
+                const clock = new TClock(timeZonesArray[i]);
+                const controller = new TClockControllerButtons(
+                    clock,
+                    new TClockViewDOM(clock, host, sitiesArray[i])
+                );
+            }
+        }
+
+        createClock(timeZones, sities, document.body);
+    });
+
+</script>
+</body>
+</html>
